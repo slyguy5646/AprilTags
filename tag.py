@@ -28,7 +28,7 @@ def main():
     window = 'Camera'
     cv2.namedWindow(window)
 
-    dataWindow = 'Telemetry'
+    dataWindow = 'Tag Data'
     cv2.namedWindow(dataWindow)
 
     whiteBackground = np.zeros((512, 512, 1), np.uint8)
@@ -58,11 +58,11 @@ def main():
 
         overlay = frame // 2 + dimg[:, :, None] // 2
         text = 'hello'
-        cv2.putText(whiteBackground, text, (100, 100), cv2.FONT_HERSHEY_PLAIN, 1, (0, 255, 0), 2)
+        newIMG = cv2.putText(whiteBackground, text, (100, 100), cv2.FONT_HERSHEY_PLAIN, 1, (0, 255, 0), 2)
         
         cv2.imshow(window, overlay)
         k = cv2.waitKey(1)
-        cv2.imshow("Data", whiteBackground)
+        cv2.imshow(dataWindow, newIMG)
 
         if k == 27:
             break
