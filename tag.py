@@ -1,10 +1,10 @@
 #!/usr/bin/env python
-
-'''Demonstrate Python wrapper of C apriltag library by running on camera frames.'''
 from __future__ import division
 from __future__ import print_function
 
 from argparse import ArgumentParser
+from textwrap import indent
+from xml.etree.ElementTree import tostring
 import cv2
 import apriltag
 import json
@@ -66,7 +66,6 @@ def main():
             # jsonData = ast.literal_eval(data)
             # print(jsonData)
         overlay = frame // 2 + dimg[:, :, None] // 2
-
         cv2.imshow(window, overlay)
         k = cv2.waitKey(1)
 
@@ -74,3 +73,8 @@ def main():
             break
 if __name__ == '__main__':
     main()
+
+
+
+
+
