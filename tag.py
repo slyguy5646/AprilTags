@@ -6,7 +6,16 @@ from argparse import ArgumentParser
 import cv2
 import apriltag
 import numpy as np
+import json
+import threading
+import tkinter
 
+def checkNumDetections(ifBlank, argToSet):
+    if ifBlank == 0:
+        data = '0'
+    else:
+        data = argToSet
+    return argToSet
 
 def main():
 
@@ -31,12 +40,14 @@ def main():
     dataWindow = 'Tag Data'
     cv2.namedWindow(dataWindow)
 
-    whiteBackground = np.zeros((512, 512, 1), np.uint8)
+    whiteBackground = cv2.imread('apriltagcontrol.jpg')
+    whiteBackgroundWithText = cv2.imread('apriltagcontrol.jpg')
 
     
     detector = apriltag.Detector(options,
                                  searchpath=apriltag._get_demo_searchpath())
     while True:
+
 
         success, frame = cap.read()
         if not success:
@@ -44,28 +55,29 @@ def main():
 
         gray = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
         detections, dimg = detector.detect(gray, return_image=True)
+        
+        dataList = detections
+        print(dataList)
 
         num_detections = len(detections)
-        print('Detected {} tags.\n'.format(num_detections))
-        
-        
+        # print('Detected {} tags.\n'.format(num_detections))
+        num_detections_string = str(num_detections)
 
-        for i, detection in enumerate(detections):
-            print('Detection {} of {}:'.format(i+1, num_detections)) 
-            print()
-            print(detection.tostring(indent=2))
-            print()
 
         overlay = frame // 2 + dimg[:, :, None] // 2
-        text = 'hello'
-        newIMG = cv2.putText(whiteBackground, text, (100, 100), cv2.FONT_HERSHEY_PLAIN, 1, (0, 255, 0), 2)
+
+        # clear_text = ''
+        # text = checkNumDetections(num_detections, num_detections_string)
         
+        # cv2.putText(whiteBackground, clear_text, (100, 100), cv2.FONT_HERSHEY_PLAIN, 10, (0, 255, 0), 2)
+        # cv2.putText(whiteBackground, text, (100, 100), cv2.FONT_HERSHEY_PLAIN, 10, (0, 255, 0), 2)
         cv2.imshow(window, overlay)
         k = cv2.waitKey(1)
-        cv2.imshow(dataWindow, newIMG)
+        # cv2.imshow(dataWindow, whiteBackground)
 
         if k == 27:
             break
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()
+main()
