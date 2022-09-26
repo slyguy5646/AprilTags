@@ -30,10 +30,10 @@ def main():
     window = 'Camera'
     cv2.namedWindow(window)
 
-    # dataWindow = 'Telemetry'
-    # cv2.namedWindow(dataWindow)
+    dataWindow = 'Telemetry'
+    cv2.namedWindow(dataWindow)
 
-    # whiteBackground = np.zeros((512, 512, 1), np.uint8)
+    whiteBackground = np.zeros((512, 512, 1), np.uint8)
 
     # set up a reasonable search path for the apriltag DLL inside the
     # github repo this file lives in;
@@ -70,7 +70,7 @@ def main():
         
         cv2.imshow(window, overlay)
         k = cv2.waitKey(1)
-        # cv2.imshow("Data", whiteBackground)
+        cv2.imshow("Data", whiteBackground)
 
         if k == 27:
             break
