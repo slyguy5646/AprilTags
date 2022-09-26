@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-
-'''Demonstrate Python wrapper of C apriltag library by running on camera frames.'''
 from __future__ import division
 from __future__ import print_function
 
@@ -29,18 +27,6 @@ def main():
 
     window = 'Camera'
     cv2.namedWindow(window)
-
-    # dataWindow = 'Telemetry'
-    # cv2.namedWindow(dataWindow)
-
-    # whiteBackground = np.zeros((512, 512, 1), np.uint8)
-
-    # set up a reasonable search path for the apriltag DLL inside the
-    # github repo this file lives in;
-    #
-    # for "real" deployments, either install the DLL in the appropriate
-    # system-wide library directory, or specify your own search paths
-    # as needed.
     
     detector = apriltag.Detector(options,
                                  searchpath=apriltag._get_demo_searchpath())
@@ -65,12 +51,9 @@ def main():
             print()
 
         overlay = frame // 2 + dimg[:, :, None] // 2
-        text = 'hello'
-        cv2.putText(whiteBackground, text, (100, 100), cv2.FONT_HERSHEY_PLAIN, 1, (0, 255, 0), 2)
         
         cv2.imshow(window, overlay)
         k = cv2.waitKey(1)
-        # cv2.imshow("Data", whiteBackground)
 
         if k == 27:
             break
