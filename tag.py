@@ -3,13 +3,20 @@ from __future__ import division
 from __future__ import print_function
 
 from argparse import ArgumentParser
+from textwrap import indent
+from xml.etree.ElementTree import tostring
 import cv2
 import apriltag
 import numpy as np
+import json
+import threading
+
+
 
 
 def main():
 
+    
     parser = ArgumentParser(
         description='test apriltag Python bindings')
 
@@ -60,3 +67,8 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+
+
+
