@@ -1,23 +1,21 @@
 #!/usr/bin/env python
+
+'''Demonstrate Python wrapper of C apriltag library by running on camera frames.'''
 from __future__ import division
 from __future__ import print_function
 
 from argparse import ArgumentParser
 import cv2
 import apriltag
-import numpy as np
 import json
-import threading
-import tkinter
+import ast
 
-def checkNumDetections(ifBlank, argToSet):
-    if ifBlank == 0:
-        data = '0'
-    else:
-        data = argToSet
-    return argToSet
+# for some reason pylint complains about members being undefined :(
+# pylint: disable=E1101
 
 def main():
+
+    '''Main function.'''
 
     parser = ArgumentParser(
         description='test apriltag Python bindings')
@@ -37,19 +35,17 @@ def main():
     window = 'Camera'
     cv2.namedWindow(window)
 
-    # dataWindow = 'Tag Data'
-    # cv2.namedWindow(dataWindow)
-
-    whiteBackground = cv2.imread('apriltagcontrol.jpg')
-    whiteBackgroundWithText = cv2.imread('apriltagcontrol.jpg')
-
+    # set up a reasonable search path for the apriltag DLL inside the
+    # github repo this file lives in;
+    #
+    # for "real" deployments, either install the DLL in the appropriate
+    # system-wide library directory, or specify your own search paths
+    # as needed.
     
     detector = apriltag.Detector(options,
                                  searchpath=apriltag._get_demo_searchpath())
-    loopBool = True
-    
-    while True:
 
+    while True:
 
         success, frame = cap.read()
         if not success:
@@ -57,34 +53,24 @@ def main():
 
         gray = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
         detections, dimg = detector.detect(gray, return_image=True)
-        
-        # for i, j in enumerate(detections):
-        #     listVar = j.tostring(indent=2)
-        #     print(type(listVar))
-        #     stringCode = listVar.format()
-        #     print(stringCode)
-        print(detector.detect(gray))
-
+        detector1 = detector.detect(gray)
         num_detections = len(detections)
-        # print('Detected {} tags.\n'.format(num_detections))
-        num_detections_string = str(num_detections)
+        print('Detected {} tags.\n'.format(num_detections))
 
-
+        for i, detection in enumerate(detections, 0):
+            print('Detection {} of {}:'.format(i+1, num_detections))
+            print()
+            data = detection.tostring(indent=0)
+            print(data)
+            
+            # jsonData = ast.literal_eval(data)
+            # print(jsonData)
         overlay = frame // 2 + dimg[:, :, None] // 2
 
-        # clear_text = ''
-        # text = checkNumDetections(num_detections, num_detections_string)
-        
-        # cv2.putText(whiteBackground, clear_text, (100, 100), cv2.FONT_HERSHEY_PLAIN, 10, (0, 255, 0), 2)
-        # cv2.putText(whiteBackground, text, (100, 100), cv2.FONT_HERSHEY_PLAIN, 10, (0, 255, 0), 2)
         cv2.imshow(window, overlay)
         k = cv2.waitKey(1)
-        # cv2.imshow(dataWindow, whiteBackground)
 
         if k == 27:
             break
-        loopBool = False
-
-# if __name__ == '__main__':
-#     main()
-main()
+if __name__ == '__main__':
+    main()
