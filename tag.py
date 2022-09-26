@@ -46,6 +46,8 @@ def main():
     
     detector = apriltag.Detector(options,
                                  searchpath=apriltag._get_demo_searchpath())
+    loopBool = True
+    
     while True:
 
 
@@ -56,8 +58,12 @@ def main():
         gray = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
         detections, dimg = detector.detect(gray, return_image=True)
         
-        dataList = detections
-        print(dataList)
+        for i, j in enumerate(detections):
+            listVar = j.tostring(indent=2)
+            print(type(listVar))
+            stringCode = listVar.format()
+            print(stringCode)
+
 
         num_detections = len(detections)
         # print('Detected {} tags.\n'.format(num_detections))
@@ -77,6 +83,7 @@ def main():
 
         if k == 27:
             break
+        loopBool = False
 
 # if __name__ == '__main__':
 #     main()
