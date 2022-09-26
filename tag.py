@@ -7,13 +7,10 @@ from __future__ import print_function
 from argparse import ArgumentParser
 import cv2
 import apriltag
+import numpy as np
 
-# for some reason pylint complains about members being undefined :(
-# pylint: disable=E1101
 
 def main():
-
-    '''Main function.'''
 
     parser = ArgumentParser(
         description='test apriltag Python bindings')
@@ -33,6 +30,11 @@ def main():
     window = 'Camera'
     cv2.namedWindow(window)
 
+    # dataWindow = 'Telemetry'
+    # cv2.namedWindow(dataWindow)
+
+    # whiteBackground = np.zeros((512, 512, 1), np.uint8)
+
     # set up a reasonable search path for the apriltag DLL inside the
     # github repo this file lives in;
     #
@@ -42,7 +44,6 @@ def main():
     
     detector = apriltag.Detector(options,
                                  searchpath=apriltag._get_demo_searchpath())
-
     while True:
 
         success, frame = cap.read()
@@ -54,17 +55,22 @@ def main():
 
         num_detections = len(detections)
         print('Detected {} tags.\n'.format(num_detections))
+        
+        
 
         for i, detection in enumerate(detections):
-            print('Detection {} of {}:'.format(i+1, num_detections))
+            print('Detection {} of {}:'.format(i+1, num_detections)) 
             print()
             print(detection.tostring(indent=2))
             print()
 
         overlay = frame // 2 + dimg[:, :, None] // 2
-
+        text = 'hello'
+        cv2.putText(whiteBackground, text, (100, 100), cv2.FONT_HERSHEY_PLAIN, 1, (0, 255, 0), 2)
+        
         cv2.imshow(window, overlay)
         k = cv2.waitKey(1)
+        # cv2.imshow("Data", whiteBackground)
 
         if k == 27:
             break
