@@ -7,8 +7,7 @@ from textwrap import indent
 from xml.etree.ElementTree import tostring
 import cv2
 import apriltag
-import json
-import ast
+from returnData import tagData
 
 # for some reason pylint complains about members being undefined :(
 # pylint: disable=E1101
@@ -60,11 +59,20 @@ def main():
         for i, detection in enumerate(detections, 0):
             print('Detection {} of {}:'.format(i+1, num_detections))
             print()
-            data = detection.tostring(indent=0)
-            print(data)
             
-            # jsonData = ast.literal_eval(data)
-            # print(jsonData)
+            data = detection.tostring(indent=0) #data from tag
+            tagData.clear() #clear my list of the data
+            tagData.append(data) #add the new tag data to my list
+            tagDataDict = tagData[0]    #get the dict of the data from my list
+            tagId = tagDataDict['ID']
+            hammingError = tagDataDict['Hamming error']
+            goodness = tagDataDict['Goodness']
+            decisionMargin = tagDataDict['Decision margin']
+            homography = tagDataDict['Homography']
+            center = tagDataDict['Center']
+            corners = tagDataDict['Corners']
+            
+            
         overlay = frame // 2 + dimg[:, :, None] // 2
         cv2.imshow(window, overlay)
         k = cv2.waitKey(1)
