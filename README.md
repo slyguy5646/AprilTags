@@ -1,2 +1,2 @@
 # AprilTags
-April Tag Detector system for testing
+AprilTag detector system for testing
