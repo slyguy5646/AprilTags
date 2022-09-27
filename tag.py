@@ -32,7 +32,7 @@ def main():
         cap = cv2.VideoCapture(options.device_or_movie)
 
     window = 'Camera'
-    cv2.namedWindow(window)
+    cv2.namedWindow(window, cv2.WINDOW_KEEPRATIO)
 
     # set up a reasonable search path for the apriltag DLL inside the
     # github repo this file lives in;
@@ -71,6 +71,11 @@ def main():
             homography = tagDataDict['Homography']
             center = tagDataDict['Center']
             corners = tagDataDict['Corners']
+            print(tagId)
+            # if len(tagData) > 1:
+            #     for i in tagData[1:]:
+            #         scndTagDataDict = tagData[1]
+            #         print(scndTagDataDict['ID'])
             
             
         overlay = frame // 2 + dimg[:, :, None] // 2
