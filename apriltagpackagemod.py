@@ -138,7 +138,6 @@ tuple class.
 
         if not values:
             values = collections.OrderedDict(zip(self._print_fields, self))
-            values.pop('Family')
         for label in values:
             
             value_str = values
