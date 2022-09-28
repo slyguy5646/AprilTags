@@ -102,7 +102,7 @@ def main():
 
             print('Corner Coordinates:' + str(corner1) + str(corner2) + str(corner3), str(corner4))
             print('Homography Coordinates:' + str(homography.tolist()))
-            print('Corner Coordinates:' + str(center))
+            print('Center Coordinates:' + str(center))
 
             
             
