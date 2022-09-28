@@ -3,11 +3,17 @@ from __future__ import division
 from __future__ import print_function
 
 from argparse import ArgumentParser
+from array import array
+from os import remove
 from textwrap import indent
-from xml.etree.ElementTree import tostring
+from tkinter import font
 import cv2
+from cv2 import displayStatusBar, displayOverlay
 import apriltag
 from returnData import tagData
+import numpy as np
+from array import *
+
 
 # for some reason pylint complains about members being undefined :(
 # pylint: disable=E1101
@@ -33,7 +39,13 @@ def main():
 
     window = 'Camera'
     cv2.namedWindow(window, cv2.WINDOW_KEEPRATIO)
+    
 
+
+
+    dataWindow = 'Tag Data'
+    cv2.namedWindow(dataWindow, cv2.WINDOW_NORMAL)
+    whiteBackground = np.full((1000, 1000, 1), 255, dtype = "uint8")
     # set up a reasonable search path for the apriltag DLL inside the
     # github repo this file lives in;
     #
@@ -45,7 +57,7 @@ def main():
                                  searchpath=apriltag._get_demo_searchpath())
 
     while True:
-
+        whiteBackground = np.full((1000, 1000, 1), 255, dtype = "uint8")
         success, frame = cap.read()
         if not success:
             break
@@ -64,6 +76,7 @@ def main():
             tagData.clear() #clear my list of the data
             tagData.append(data) #add the new tag data to my list
             tagDataDict = tagData[0]    #get the dict of the data from my list
+            tagFamily = tagDataDict['Family']
             tagId = tagDataDict['ID']
             hammingError = tagDataDict['Hamming error']
             goodness = tagDataDict['Goodness']
@@ -71,15 +84,45 @@ def main():
             homography = tagDataDict['Homography']
             center = tagDataDict['Center']
             corners = tagDataDict['Corners']
-            print(tagId)
+            guiListText = {
+                'Family': [f'Family: {tagFamily}', 50],
+                'ID': [f'ID: {tagId}', 100], 
+                'HammingError': [f'Hamming Error: {hammingError}', 150], 
+                'Goodness': [f'Goodness: {goodness}', 200], 
+                'DecisionMargin': [f'Decision Margin: {round(decisionMargin)}%', 250], 
+                # 'Homography': [f'Homography: {homography}', 300], 
+                # 'Center': [f'Center: {center}', 350], 
+                # 'Corners': [f'Corners: {corners}', 400]
+            }
+            #cornersList = corners.tolist() ##########THIS IS HOW YOU CHANGE AN NUMPY NDARRAY TO A REGULAR PYTHON USABLE LIST
+            corner1 = {'X': float(corners[0][0]), 'Y': float(corners[0][1])}
+            corner2 = {'X': float(corners[1][0]), 'Y': float(corners[1][1])}
+            corner3 = {'X': float(corners[2][0]), 'Y': float(corners[2][1])}
+            corner4 = {'X': float(corners[3][0]), 'Y': float(corners[3][1])}
+
+            print('Corner Coordinates:' + str(corner1) + str(corner2) + str(corner3), str(corner4))
+            print('Homography Coordinates:' + str(homography.tolist()))
+            print('Corner Coordinates:' + str(center))
+
+            
+            
+
+
+            
             # if len(tagData) > 1:
             #     for i in tagData[1:]:
             #         scndTagDataDict = tagData[1]
             #         print(scndTagDataDict['ID'])
-            
+            for key in guiListText.keys():
+                listOfStringAndPos = guiListText[key]
+                cv2.putText(whiteBackground, listOfStringAndPos[0], (25, listOfStringAndPos[1]), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 0), 2)
+
+
+
             
         overlay = frame // 2 + dimg[:, :, None] // 2
         cv2.imshow(window, overlay)
+        cv2.imshow(dataWindow, whiteBackground)
         k = cv2.waitKey(1)
 
         if k == 27:
