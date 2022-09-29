@@ -4,7 +4,7 @@ import cv2
 import argparse
 """
 
-C270 Webcam has focal length of 4mm
+C270 Webcam has focal length of 4mm and sensor size of 3.58x2.02 mm
 
 
 
