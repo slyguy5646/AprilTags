@@ -84,6 +84,7 @@ def main():
             homography = tagDataDict['Homography']
             center = tagDataDict['Center']
             corners = tagDataDict['Corners']
+            cornersRounded = corners.round(decimals=2)
             guiListText = {
                 'Family': [f'Family: {tagFamily}', 50],
                 'ID': [f'ID: {tagId}', 100], 
@@ -92,16 +93,16 @@ def main():
                 'DecisionMargin': [f'Decision Margin: {round(decisionMargin)}%', 250], 
                 # 'Homography': [f'Homography: {homography}', 300], 
                 # 'Center': [f'Center: {center}', 350], 
-                # 'Corners': [f'Corners: {corners}', 400]
+                #'Corners': [f'Corners: {corners}', 400]
             }
             #cornersList = corners.tolist() ##########THIS IS HOW YOU CHANGE AN NUMPY NDARRAY TO A REGULAR PYTHON USABLE LIST
             corner1 = {'X': float(corners[0][0]), 'Y': float(corners[0][1])}
             corner2 = {'X': float(corners[1][0]), 'Y': float(corners[1][1])}
             corner3 = {'X': float(corners[2][0]), 'Y': float(corners[2][1])}
             corner4 = {'X': float(corners[3][0]), 'Y': float(corners[3][1])}
-
+            
             print('Corner Coordinates:' + str(corner1) + str(corner2) + str(corner3), str(corner4))
-            print('Homography Coordinates:' + str(homography.tolist()))
+            print(f'Homography Coordinates:\n {homography}')
             print('Center Coordinates:' + str(center))
 
             
