@@ -2,10 +2,10 @@ import numpy as np
 import cv2
 import glob
 """
-
 Based on this article: https://docs.opencv.org/4.x/dc/dbb/tutorial_py_calibration.html
 Take our own photos of the chessboard based on the ones in the OpenCVCameraCalibration folder
 
+C270 Webcam has focal length of 4mm and sensor size of 3.58x2.02 mm
 """
 # termination criteria
 criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
