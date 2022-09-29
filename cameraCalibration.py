@@ -2,6 +2,14 @@ from __future__ import print_function
 import numpy as np
 import cv2
 import argparse
+"""
+
+C270 Webcam has focal length of 4mm
+
+
+
+"""
+
 
 def main():
 

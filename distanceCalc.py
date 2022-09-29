@@ -12,5 +12,9 @@ Use homography data (this is probably simpler overall)
 
 OR 
 
-Maybe checkout this package https://satellogic.github.io/homography/
+Maybe checkout this package: https://satellogic.github.io/homography/
+
+OR
+
+This equation: https://www.reddit.com/r/logitech/comments/r6grj8/logitech_c270_specs/
 """
