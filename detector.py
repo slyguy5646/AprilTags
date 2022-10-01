@@ -2,7 +2,7 @@
 from __future__ import division
 from __future__ import print_function
 
-from C270Calibration.c270CalibrationData import noDistMatrix, cameraMatrix
+from C270Calibration.C270 import noDistMatrix, cameraMatrix
 from argparse import ArgumentParser
 from array import array
 from os import remove
