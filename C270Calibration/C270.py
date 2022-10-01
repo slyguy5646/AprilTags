@@ -10,10 +10,6 @@ noDistMatrix = [[1.39384241e+03, 0.00000000e+00, 6.22839147e+02],
 
 
 
-focalLength = 4
-
-
-
 
 """
 ALL DATA:
