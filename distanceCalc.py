@@ -1,4 +1,5 @@
-from returnData import returnData
+from tagData import tagData
+from C270Calibration.C270 import focalLength, noDistMatrix
 
 ########## PLAN FOR DISTANCE CALCULATION ##########
 """
@@ -12,5 +13,15 @@ Use homography data (this is probably simpler overall)
 
 OR 
 
-Maybe checkout this package https://satellogic.github.io/homography/
+Maybe checkout this package: https://satellogic.github.io/homography/
+
+OR
+
+This equation: https://www.reddit.com/r/logitech/comments/r6grj8/logitech_c270_specs/
 """
+
+
+def calculateDistance(focalLengthMM, objectHeightMM, imageHeightPixels, objectHeightPixels, sensorHeightMM):
+    numerator = (focalLengthMM * objectHeightMM * imageHeightPixels) 
+    denominator = objectHeightPixels * sensorHeightMM
+    return numerator / denominator
