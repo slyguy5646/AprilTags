@@ -1,4 +1,5 @@
 from tagData import tagData
+from C270Calibration.C270 import focalLength, noDistMatrix
 
 ########## PLAN FOR DISTANCE CALCULATION ##########
 """
@@ -18,3 +19,9 @@ OR
 
 This equation: https://www.reddit.com/r/logitech/comments/r6grj8/logitech_c270_specs/
 """
+
+
+def calculateDistance(focalLengthMM, objectHeightMM, imageHeightPixels, objectHeightPixels, sensorHeightMM):
+    numerator = (focalLengthMM * objectHeightMM * imageHeightPixels) 
+    denominator = objectHeightPixels * sensorHeightMM
+    return numerator / denominator

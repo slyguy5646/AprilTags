@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 from __future__ import division
 from __future__ import print_function
+from math import sqrt
 
 from C270Calibration.C270 import noDistMatrix, cameraMatrix
+from distanceCalc import calculateDistance
 from argparse import ArgumentParser
 from array import array
 from os import remove
@@ -86,25 +88,35 @@ def main():
             center = tagDataDict['Center']
             corners = tagDataDict['Corners']
             cornersRounded = corners.round(decimals=2)
-            guiListText = {
-                'Family': [f'Family: {tagFamily}', 50],
-                'ID': [f'ID: {tagId}', 100], 
-                'HammingError': [f'Hamming Error: {hammingError}', 150], 
-                'Goodness': [f'Goodness: {goodness}', 200], 
-                'DecisionMargin': [f'Decision Margin: {round(decisionMargin)}%', 250], 
-                # 'Homography': [f'Homography: {homography}', 300], 
-                # 'Center': [f'Center: {center}', 350], 
-                #'Corners': [f'Corners: {corners}', 400]
-            }
             #cornersList = corners.tolist() ##########THIS IS HOW YOU CHANGE AN NUMPY NDARRAY TO A REGULAR PYTHON USABLE LIST
             corner1 = {'X': float(corners[0][0]), 'Y': float(corners[0][1])}
             corner2 = {'X': float(corners[1][0]), 'Y': float(corners[1][1])}
             corner3 = {'X': float(corners[2][0]), 'Y': float(corners[2][1])}
             corner4 = {'X': float(corners[3][0]), 'Y': float(corners[3][1])}
+
+            xPartForEquation = (corner2['X'] - corner1['X']) ** 2
+            yPartForEquation = (corner2['Y']- corner1['Y']) ** 2
+            tagHeight = sqrt(xPartForEquation + yPartForEquation)
+            # print(tagHeight)
             
-            print('Corner Coordinates:' + str(corner1) + str(corner2) + str(corner3), str(corner4))
-            print(f'Homography Coordinates:\n {homography}')
-            print('Center Coordinates:' + str(center))
+            straightDistanceToTag = calculateDistance(3.22, 100, 720, tagHeight, 2.02)
+            straightDistanceToTagInches = straightDistanceToTag / 25.4
+            # print(straightDistanceToTagInches)
+            guiListText = {
+                'Family': [f'Family: {tagFamily}', 50],
+                'ID': [f'ID: {tagId}', 100], 
+                'HammingError': [f'Hamming Error: {hammingError}', 150], 
+                'Goodness': [f'Goodness: {goodness}', 200], 
+                'DecisionMargin': [f'Decision Margin: {round(decisionMargin)}%', 250],
+                'Distance to Tag': [f'Distance to Tag: {round(straightDistanceToTagInches)}', 300] 
+                # 'Homography': [f'Homography: {homography}', 300], 
+                # 'Center': [f'Center: {center}', 350], 
+                #'Corners': [f'Corners: {corners}', 400]
+            }
+            
+            # print('Corner Coordinates:' + str(corner1) + str(corner2) + str(corner3), str(corner4))
+            # print(f'Homography Coordinates:\n {homography}')
+            # print('Center Coordinates:' + str(center))
 
             
             

@@ -46,7 +46,7 @@ print(cameraMatrix)
 
 img = cv2.imread('opencv_frame_0.png')
 h, w = img.shape[:2]
-newCameraMatrix, roi = cv2.getOptimalNewCameraMatrix(cameraMatrix, dist, (w,h), 1, (w,h))
+newCameraMatrix, roi = cv2.getOptimalNewCameraMatrix(cameraMatrix, dist, (w,h), 0, (w,h))
 
 #undistort
 dst = cv2.undistort(img, cameraMatrix, dist, None, newCameraMatrix)
