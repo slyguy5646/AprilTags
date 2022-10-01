@@ -53,10 +53,28 @@ dst = cv2.undistort(img, cameraMatrix, dist, None, newCameraMatrix)
 #crop the image
 x, y, w, h = roi
 dst = dst[y:y+h, x:x+w]
-cv2.imwrite('result.png', dst)
+# cv2.imwrite('result.png', dst)
+
+# undistort
+mapx, mapy = cv2.initUndistortRectifyMap(cameraMatrix, dist, None, newCameraMatrix, (w,h), 5)
+dst = cv2.remap(img, mapx, mapy, cv2.INTER_LINEAR)
+# crop the image
+x, y, w, h = roi
+dst = dst[y:y+h, x:x+w]
+# cv2.imwrite('calibresult.png', dst)
+
+
+mean_error = 0
+for i in range(len(objPoints)):
+    imgpoints2, _ = cv2.projectPoints(objPoints[i], rvecs[i], tvecs[i], cameraMatrix, dist)
+    error = cv2.norm(imgPoints[i], imgpoints2, cv2.NORM_L2)/len(imgpoints2)
+    mean_error += error
+print( "total error: {}".format(mean_error/len(objPoints)) )
+
 
 
 print(newCameraMatrix)
+print(type(newCameraMatrix))
 
 
 
