@@ -1,4 +1,7 @@
 # AprilTags
-AprilTag detector system for testing
 
-AprilTags from: https://github.com/rgov/apriltag-pdfs
+A basic april tag detector system with rough distance calculations for the Logitech C270 Webcam
+
+
+
+
