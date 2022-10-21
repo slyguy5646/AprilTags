@@ -3,6 +3,9 @@ from __future__ import division
 from __future__ import print_function
 from math import sqrt
 
+"""
+ONLY WORKING ON PYTHON 3.7.1 AS FAR AS MY TESTING GOES
+"""
 from distanceCalc import calculateDistance
 from argparse import ArgumentParser
 import cv2
