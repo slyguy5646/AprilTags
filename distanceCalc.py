@@ -1,5 +1,5 @@
 from tagData import tagData
-from C270Calibration.C270 import focalLength, noDistMatrix
+from C270Calibration.C270 import noDistMatrix
 
 ########## PLAN FOR DISTANCE CALCULATION ##########
 """

@@ -1,4 +1,4 @@
-from xml.dom.minidom import DOMImplementation
+
 
 cameraMatrix = [[1.39493216e+03, 0.00000000e+00, 6.23326098e+02],
  [0.00000000e+00, 1.38785861e+03, 4.14530441e+02],
@@ -8,12 +8,9 @@ noDistMatrix = [[1.39384241e+03, 0.00000000e+00, 6.22839147e+02],
  [0.00000000e+00, 1.38593091e+03, 4.13954687e+02],
  [0.00000000e+00, 0.00000000e+00, 1.00000000e+00]]
 
-
-
-focalLength = 4
-
-
-
+#SENSOR SIZE = 3.58X2.02mm
+#Viewing angle 60 degrees
+#my calculated focal length = 1.749371316
 
 """
 ALL DATA:

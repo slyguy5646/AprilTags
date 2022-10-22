@@ -3,6 +3,9 @@ from __future__ import division
 from __future__ import print_function
 from math import sqrt
 
+"""
+ONLY WORKING ON PYTHON 3.7.1 AS FAR AS MY TESTING GOES
+"""
 from distanceCalc import calculateDistance
 from argparse import ArgumentParser
 import cv2
@@ -47,7 +50,7 @@ def main():
     cv2.namedWindow(dataWindow, cv2.WINDOW_NORMAL)
     whiteBackground = np.full((1000, 1000, 1), 255, dtype = "uint8") #set window to white on startup
     ########
-    
+
     detector = apriltag.Detector(options,
                                  searchpath=apriltag._get_demo_searchpath())
 
