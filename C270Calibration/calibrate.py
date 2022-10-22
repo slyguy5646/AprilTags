@@ -35,6 +35,7 @@ for image in images:
 
 cv2.destroyAllWindows()
 
+
 ret, cameraMatrix, dist, rvecs, tvecs = cv2.calibrateCamera(objPoints, imgPoints, frameSize, None, None)
 
 # print("camera calibrate: ", ret)

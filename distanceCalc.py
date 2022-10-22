@@ -1,5 +1,6 @@
 from tagData import tagData
 from C270Calibration.C270 import noDistMatrix
+import cv2
 
 ########## PLAN FOR DISTANCE CALCULATION ##########
 """
@@ -25,3 +26,7 @@ def calculateDistance(focalLengthMM, objectHeightMM, imageHeightPixels, objectHe
     numerator = (focalLengthMM * objectHeightMM * imageHeightPixels) 
     denominator = objectHeightPixels * sensorHeightMM
     return numerator / denominator
+
+
+def PnPSolverTest():
+    cv2.solvePnP()
