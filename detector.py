@@ -118,7 +118,7 @@ def main():
             #######################
 
             ###### CAN NOW GET BOTH ROTATION AND TRANSLATION MATRICES FROM HOMOGRAPHY MATRIX ######
-            value = cv2.decomposeHomographyMat(tagHomography, cameraMatrix)
+            value = cv2.decomposeHomographyMat(tagHomography, cameraMatrix) #####GIVES YOU THREE OF EACH ROTATION AND TRANSLATION MATRICES
             print(value)
             #####CALCULATE DISTANCE TO APRILTAG with some pretty sketchy math#####
             straightDistanceToTag = calculateDistance(3.22, 100, 720, tagHeight, 2.02)
