@@ -6,7 +6,7 @@ from math import sqrt
 """
 ONLY WORKING ON PYTHON 3.7.1 AS FAR AS MY TESTING GOES
 """
-from distanceCalc import calculateDistance
+from distanceCalc import *
 from argparse import ArgumentParser
 import cv2
 import apriltag
@@ -80,7 +80,6 @@ def main():
             decisionMargin = tagDataDict['Decision margin']
             tagHomography = tagDataDict['Homography']
             tagCenter = tagDataDict['Center']
-            
             #####CORNERS######
             corners = tagDataDict['Corners']
             tagCornersRounded = corners.round(decimals=2)
@@ -89,6 +88,7 @@ def main():
             tagCorner2 = {'X': float(corners[1][0]), 'Y': float(corners[1][1])}
             tagCorner3 = {'X': float(corners[2][0]), 'Y': float(corners[2][1])}
             tagCorner4 = {'X': float(corners[3][0]), 'Y': float(corners[3][1])}
+            # print(corners)
             ####################
 
             #####Distance between tag corner 1 and 2 (in pixels)######
@@ -102,6 +102,10 @@ def main():
             straightDistanceToTag = calculateDistance(3.22, 100, 720, tagHeight, 2.02)
             straightDistanceToTagInches = straightDistanceToTag / 25.4
             # print(straightDistanceToTagInches)
+            pnpDistance, point = PnPSolverTest(tagHeight, corners)
+            print(pnpDistance)
+            print()
+            print(point)
             ###############
 
             #####DICTIONARY OF DATA AND PIXEL COORDINATES TO SEND TO DATA WINDOW######
@@ -111,7 +115,8 @@ def main():
                 'HammingError': [f'Hamming Error: {hammingError}', 150], 
                 'Goodness': [f'Goodness: {goodness}', 200], 
                 'DecisionMargin': [f'Decision Margin: {round(decisionMargin)}%', 250],
-                'Distance to Tag': [f'Distance to Tag: {round(straightDistanceToTagInches)}', 300] 
+                'Distance to Tag': [f'Distance to Tag: {round(straightDistanceToTagInches)}', 300],
+                'PNP Distance': [f'PnP Distance: {(pnpDistance)}', 350]
                 # 'Homography': [f'Homography: {tagHomography}', 350], 
                 # 'Center': [f'Center: {tagCenter}', 400], 
                 #'Corners': [f'Corners: {tagCorners}', 450]

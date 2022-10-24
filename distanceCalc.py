@@ -1,6 +1,7 @@
 from tagData import tagData
 from C270Calibration.C270 import cameraMatrix, dist
 import cv2
+import numpy as np
 
 ########## PLAN FOR DISTANCE CALCULATION ##########
 """
@@ -41,6 +42,6 @@ def PnPSolverTest(lengthOfTag, corners):
     R,jacobian = cv2.Rodrigues(R) #from R-vector to R-matrix
     for i in range(0,len(objectPoints)):
         point = np.dot(objectPoints[i],R) + np.matrix.transpose(T)
-        Z[i] = point[0,2] * 1000 #Z-value to mm
+        # Z[i] = point[0,2] * 1000 #Z-value to mm
     
-    return (((Z.max() - Z.min())/100)/25.4)
+    return np.round(Z.reshape(2,2)), point
