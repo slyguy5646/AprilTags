@@ -71,19 +71,21 @@ def main():
         for i, detection in enumerate(detections, 0):
             # print('Detection {} of {}:'.format(i+1, num_detections))
             # print()
-            pose, stuff, stuff1  = detector.detection_pose(detection, cameraMatrixForAprilTag, 0.01)
-            poseList = pose.tolist()
-            x = poseList[0][3]
-            y = poseList[1][3]
-            z = poseList[2][3]
-            poseZInches = (poseList[2][3] * 1000)/25.44
-            print()
-            print(poseList[0])
-            print(poseList[1])
-            print(poseList[2])
-            print(poseList[3])
-            print()
-            print(f'Pose Estimation Distance (inches): {poseZInches}')
+
+            ############ APRIL TAG LIBRARY BUILT IN POSE DETECTION = NOT VERY GOOD ################
+            # pose, stuff, stuff1  = detector.detection_pose(detection, cameraMatrixForAprilTag, 0.01)
+            # poseList = pose.tolist()
+            # x = poseList[0][3]
+            # y = poseList[1][3]
+            # z = poseList[2][3]
+            # poseZInches = (poseList[2][3] * 1000)/25.44
+            # print()
+            # print(poseList[0])
+            # print(poseList[1])
+            # print(poseList[2])
+            # print(poseList[3])
+            # print()
+            # print(f'Pose Estimation Distance (inches): {poseZInches}')
             
             
             data = detection.tostring(indent=0) #data from tag
@@ -114,18 +116,15 @@ def main():
             tagHeight = sqrt(xPartForEquation + yPartForEquation)
             # print(tagHeight)
             #######################
+
+            ###### CAN NOW GET BOTH ROTATION AND TRANSLATION MATRICES FROM HOMOGRAPHY MATRIX ######
             value = cv2.decomposeHomographyMat(tagHomography, cameraMatrix)
             print(value)
-            #####CALCULATE DISTANCE TO APRILTAG#####
+            #####CALCULATE DISTANCE TO APRILTAG with some pretty sketchy math#####
             straightDistanceToTag = calculateDistance(3.22, 100, 720, tagHeight, 2.02)
             straightDistanceToTagInches = straightDistanceToTag / 25.4
             print(f"My distance estimation (inches): {straightDistanceToTagInches}")
             print()
-            pnpDistance, point = PnPSolverTest(tagHeight, corners)
-            # print(pnpDistance)
-            # print()
-            # print(point)
-            ###############
 
             
 
@@ -136,8 +135,7 @@ def main():
                 'HammingError': [f'Hamming Error: {hammingError}', 150], 
                 'Goodness': [f'Goodness: {goodness}', 200], 
                 'DecisionMargin': [f'Decision Margin: {round(decisionMargin)}%', 250],
-                'Distance to Tag': [f'Distance to Tag: {round(straightDistanceToTagInches)}', 300],
-                'PNP Distance': [f'PnP Distance: {(pnpDistance)}', 350]
+                'Distance to Tag': [f'Distance to Tag: {round(straightDistanceToTagInches)}', 300]
                 # 'Homography': [f'Homography: {tagHomography}', 350], 
                 # 'Center': [f'Center: {tagCenter}', 400], 
                 #'Corners': [f'Corners: {tagCorners}', 450]
