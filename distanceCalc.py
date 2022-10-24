@@ -1,5 +1,5 @@
 from tagData import tagData
-from C270Calibration.C270 import noDistMatrix
+from C270Calibration.C270 import cameraMatrix, dist
 import cv2
 
 ########## PLAN FOR DISTANCE CALCULATION ##########
@@ -28,5 +28,19 @@ def calculateDistance(focalLengthMM, objectHeightMM, imageHeightPixels, objectHe
     return numerator / denominator
 
 
-def PnPSolverTest():
-    cv2.solvePnP()
+def PnPSolverTest(lengthOfTag, corners):
+    objectPoints = np.array([
+    [-lengthOfTag/2, lengthOfTag/2, 0], 
+    [lengthOfTag/2, lengthOfTag/2, 0], 
+    [lengthOfTag/2, -lengthOfTag/2, 0], 
+    [-lengthOfTag/2, -lengthOfTag/2, 0]
+    ])
+    cv2.solvePnP(objectPoints, corners, cameraMatrix, dist)
+    Z = np.zeros((4))
+    retval,R, T = cv2.solvePnP(objectPoints,corners,cameraMatrix,dist) #from chessboard coordinate space to camera coordinate space
+    R,jacobian = cv2.Rodrigues(R) #from R-vector to R-matrix
+    for i in range(0,len(objectPoints)):
+        point = np.dot(objectPoints[i],R) + np.matrix.transpose(T)
+        Z[i] = point[0,2] * 1000 #Z-value to mm
+    
+    return (((Z.max() - Z.min())/100)/25.4)
