@@ -13,12 +13,14 @@ import apriltag
 from tagData import tagData
 import numpy as np
 from array import *
+from C270Calibration.C270 import *
 
 
 # for some reason pylint complains about members being undefined
 # pylint: disable=E1101
 
 def main():
+    
 
     '''Main function.'''
 
@@ -63,11 +65,26 @@ def main():
         gray = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY) #convert webcam to gray
         detections, dimg = detector.detect(gray, return_image=True) #detect tags
         num_detections = len(detections)
-        print('Detected {} tags.\n'.format(num_detections))
+        # print('Detected {} tags.\n'.format(num_detections))
+        
 
         for i, detection in enumerate(detections, 0):
-            print('Detection {} of {}:'.format(i+1, num_detections))
+            # print('Detection {} of {}:'.format(i+1, num_detections))
+            # print()
+            pose, stuff, stuff1  = detector.detection_pose(detection, cameraMatrixForAprilTag, 0.01)
+            poseList = pose.tolist()
+            x = poseList[0][3]
+            y = poseList[1][3]
+            z = poseList[2][3]
+            poseZInches = (poseList[2][3] * 1000)/25.44
             print()
+            print(poseList[0])
+            print(poseList[1])
+            print(poseList[2])
+            print(poseList[3])
+            print()
+            print(f'Pose Estimation Distance (inches): {poseZInches}')
+            
             
             data = detection.tostring(indent=0) #data from tag
             tagData.clear() #clear my list of the data
@@ -97,16 +114,20 @@ def main():
             tagHeight = sqrt(xPartForEquation + yPartForEquation)
             # print(tagHeight)
             #######################
-            
+            value = cv2.decomposeHomographyMat(tagHomography, cameraMatrix)
+            print(value)
             #####CALCULATE DISTANCE TO APRILTAG#####
             straightDistanceToTag = calculateDistance(3.22, 100, 720, tagHeight, 2.02)
             straightDistanceToTagInches = straightDistanceToTag / 25.4
-            # print(straightDistanceToTagInches)
-            pnpDistance, point = PnPSolverTest(tagHeight, corners)
-            print(pnpDistance)
+            print(f"My distance estimation (inches): {straightDistanceToTagInches}")
             print()
-            print(point)
+            pnpDistance, point = PnPSolverTest(tagHeight, corners)
+            # print(pnpDistance)
+            # print()
+            # print(point)
             ###############
+
+            
 
             #####DICTIONARY OF DATA AND PIXEL COORDINATES TO SEND TO DATA WINDOW######
             guiListText = {

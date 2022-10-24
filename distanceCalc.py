@@ -45,3 +45,4 @@ def PnPSolverTest(lengthOfTag, corners):
         # Z[i] = point[0,2] * 1000 #Z-value to mm
     
     return np.round(Z.reshape(2,2)), point
+
