@@ -123,7 +123,7 @@ def main():
             #####CALCULATE DISTANCE TO APRILTAG with some pretty sketchy math#####
             straightDistanceToTag = calculateDistance(3.22, 100, 720, tagHeight, 2.02)
             straightDistanceToTagInches = straightDistanceToTag / 25.4
-            print(f"My distance estimation (inches): {straightDistanceToTagInches}")
+            print(f"My distance estimation (inches): {poseZInches - 10}")
             print()
 
             
@@ -135,7 +135,7 @@ def main():
                 'HammingError': [f'Hamming Error: {hammingError}', 150], 
                 'Goodness': [f'Goodness: {goodness}', 200], 
                 'DecisionMargin': [f'Decision Margin: {round(decisionMargin)}%', 250],
-                'Distance to Tag': [f'Distance to Tag: {round(straightDistanceToTagInches)}', 300]
+                'Distance to Tag': [f'Distance to Tag: {round(poseZInches - 10)}', 300]
                 # 'Homography': [f'Homography: {tagHomography}', 350], 
                 # 'Center': [f'Center: {tagCenter}', 400], 
                 #'Corners': [f'Corners: {tagCorners}', 450]
