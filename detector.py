@@ -103,10 +103,7 @@ def main():
             # print(tagHeight)
             #######################
 
-            objectPointsForPNP = np.array([[-0.060325/2, 0.060325/2, 0],
-                                            [0.060325/2, 0.060325/2, 0],
-                                            [0.060325/2, -0.060325/2, 0],
-                                            [-0.060325/2, -0.060325/2, 0]])
+            
 
             ###### CAN NOW GET BOTH ROTATION AND TRANSLATION MATRICES FROM HOMOGRAPHY MATRIX ######
             value = cv2.decomposeHomographyMat(tagHomography, cameraMatrixFromLibrary) #####GIVES YOU THREE OF EACH ROTATION AND TRANSLATION MATRICES
