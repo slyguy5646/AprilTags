@@ -4,6 +4,14 @@ import cv2
 import argparse
 import glob
 
+"""
+use this command:
+
+
+
+"""
+
+
 def main():
 
     parser = argparse.ArgumentParser(

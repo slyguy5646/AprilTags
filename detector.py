@@ -117,11 +117,20 @@ def main():
             # print(tagHeight)
             #######################
 
+            objectPointsForPNP = np.array([[-0.060325/2, 0.060325/2, 0],
+                                            [0.060325/2, 0.060325/2, 0],
+                                            [0.060325/2, -0.060325/2, 0],
+                                            [-0.060325/2, -0.060325/2, 0]])
+
             ###### CAN NOW GET BOTH ROTATION AND TRANSLATION MATRICES FROM HOMOGRAPHY MATRIX ######
             value = cv2.decomposeHomographyMat(tagHomography, cameraMatrixFromLibrary) #####GIVES YOU THREE OF EACH ROTATION AND TRANSLATION MATRICES
-            #print(value)
+            print(value)
+            value2 = cv2.solvePnP(objectPoints=objectPointsForPNP, imagePoints=corners, cameraMatrix=cameraMatrixFromLibrary, distCoeffs=dist, flags=cv2.SOLVEPNP_IPPE_SQUARE)
+            print(value2)
+            # print(pnpRvec)
+            # print(pnpTvec)
             #####CALCULATE DISTANCE TO APRILTAG with some pretty sketchy math#####
-            straightDistanceToTag = calculateDistance(3.22, 100, 720, tagHeight, 2.02)
+            straightDistanceToTag = calculateDistance(4.22, 100, 720, tagHeight, 2.02)
             straightDistanceToTagInches = straightDistanceToTag / 25.4
             print(f"My distance estimation (inches): {poseZInches - 10}")
             print()
