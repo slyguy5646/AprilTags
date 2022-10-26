@@ -80,13 +80,9 @@ def main():
             y = poseList[1][3]
             z = poseList[2][3]
             poseZInches = (poseList[2][3] * 1000)/25.44
-            # print()
-            # print(poseList[0])
-            # print(poseList[1])
-            # print(poseList[2])
-            # print(poseList[3])
-            # print(pose)
-            # print(f'Pose Estimation Distance (inches): {poseZInches - 10}')
+            print()
+            print(pose)
+            print(f'Pose Estimation Distance (inches): {poseZInches - 10}')
             
             
             data = detection.tostring(indent=0) #data from tag
