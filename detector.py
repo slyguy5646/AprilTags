@@ -72,21 +72,7 @@ def main():
             # print('Detection {} of {}:'.format(i+1, num_detections))
             # print()
 
-            ############ APRIL TAG LIBRARY BUILT IN POSE DETECTION = NOT VERY GOOD ################
-            pose, stuff, stuff1  = detector.detection_pose(detection, cameraMatrixForLibrary, 0.1)
-            poseList = pose.tolist()
-
-            x = poseList[0][3]
-            y = poseList[1][3]
-            z = poseList[2][3]
-            poseZInches = (poseList[2][3] * 1000)/25.44
-            # print()
-            # print(poseList[0])
-            # print(poseList[1])
-            # print(poseList[2])
-            # print(poseList[3])
-            print(pose)
-            print(f'Pose Estimation Distance (inches): {poseZInches - 10}')
+            
             
             
             data = detection.tostring(indent=0) #data from tag
@@ -123,11 +109,9 @@ def main():
                                             [0.060325/2, -0.060325/2, 0],
                                             [-0.060325/2, -0.060325/2, 0]])
 
-            ###### CAN NOW GET BOTH ROTATION AND TRANSLATION MATRICES FROM HOMOGRAPHY MATRIX ######
-            value = cv2.decomposeHomographyMat(tagHomography, cameraMatrixFromLibrary) #####GIVES YOU THREE OF EACH ROTATION AND TRANSLATION MATRICES
-            #print(value)
+            
             value2 = cv2.solvePnP(objectPoints=objectPointsForPNP, imagePoints=corners, cameraMatrix=cameraMatrixFromLibrary, distCoeffs=dist, flags=cv2.SOLVEPNP_IPPE_SQUARE)
-            #print('PNP' + str(value2))
+            print('PNP' + str(value2))
             # print(pnpRvec)
             # print(pnpTvec)
             #####CALCULATE DISTANCE TO APRILTAG with some pretty sketchy math#####
@@ -144,8 +128,7 @@ def main():
                 'ID': [f'ID: {tagId}', 100], 
                 'HammingError': [f'Hamming Error: {hammingError}', 150], 
                 'Goodness': [f'Goodness: {goodness}', 200], 
-                'DecisionMargin': [f'Decision Margin: {round(decisionMargin)}%', 250],
-                'Distance to Tag': [f'Distance to Tag: {round(poseZInches - 10)}', 300]
+                'DecisionMargin': [f'Decision Margin: {round(decisionMargin)}%', 250]
                 # 'Homography': [f'Homography: {tagHomography}', 350], 
                 # 'Center': [f'Center: {tagCenter}', 400], 
                 #'Corners': [f'Corners: {tagCorners}', 450]
