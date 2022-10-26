@@ -75,16 +75,17 @@ def main():
             ############ APRIL TAG LIBRARY BUILT IN POSE DETECTION = NOT VERY GOOD ################
             pose, stuff, stuff1  = detector.detection_pose(detection, cameraMatrixForLibrary, 0.1)
             poseList = pose.tolist()
+
             x = poseList[0][3]
             y = poseList[1][3]
             z = poseList[2][3]
             poseZInches = (poseList[2][3] * 1000)/25.44
-            print()
-            print(poseList[0])
-            print(poseList[1])
-            print(poseList[2])
-            print(poseList[3])
-            print()
+            # print()
+            # print(poseList[0])
+            # print(poseList[1])
+            # print(poseList[2])
+            # print(poseList[3])
+            print(pose)
             print(f'Pose Estimation Distance (inches): {poseZInches - 10}')
             
             
@@ -124,16 +125,16 @@ def main():
 
             ###### CAN NOW GET BOTH ROTATION AND TRANSLATION MATRICES FROM HOMOGRAPHY MATRIX ######
             value = cv2.decomposeHomographyMat(tagHomography, cameraMatrixFromLibrary) #####GIVES YOU THREE OF EACH ROTATION AND TRANSLATION MATRICES
-            print(value)
+            #print(value)
             value2 = cv2.solvePnP(objectPoints=objectPointsForPNP, imagePoints=corners, cameraMatrix=cameraMatrixFromLibrary, distCoeffs=dist, flags=cv2.SOLVEPNP_IPPE_SQUARE)
-            print(value2)
+            #print('PNP' + str(value2))
             # print(pnpRvec)
             # print(pnpTvec)
             #####CALCULATE DISTANCE TO APRILTAG with some pretty sketchy math#####
             straightDistanceToTag = calculateDistance(4.22, 100, 720, tagHeight, 2.02)
             straightDistanceToTagInches = straightDistanceToTag / 25.4
-            print(f"My distance estimation (inches): {poseZInches - 10}")
-            print()
+            # print(f"My distance estimation (inches): {poseZInches - 10}")
+            # print()
 
             
 
